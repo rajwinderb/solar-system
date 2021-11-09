@@ -1,7 +1,15 @@
-import { greet } from "./utils/greet";
+import AppHeader from "./components/AppHeader";
+import NavBar from "./components/NavBar";
+import SolarSystem from "./components/SolarSystem";
 
 function App(): JSX.Element {
-  return <h1>{greet("World")}</h1>;
+  return (
+    <>
+      <AppHeader />
+      <NavBar />
+      <SolarSystem />
+    </>
+  );
 }
 
 export default App;
