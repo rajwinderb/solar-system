@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+.AppHeader {
+  text-align: center;
+  padding: 5px;
+}
+
+.AppHeader h1 {
+  font-family: "Press Start 2P", cursive;
+  font-size: 30px;
+}

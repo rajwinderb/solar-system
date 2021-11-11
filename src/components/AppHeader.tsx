@@ -1,3 +1,5 @@
+import "./AppHeader.css";
+
 export default function AppHeader(): JSX.Element {
   return (
     <header className="AppHeader">

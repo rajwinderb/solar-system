@@ -1,0 +1,15 @@
+.Planet {
+  text-align: center;
+  display: inline-block;
+  margin-right: 5px;
+  padding: 3px;
+}
+
+li {
+  text-decoration: underline;
+}
+
+li:hover {
+  cursor: pointer;
+  color: yellow;
+}
