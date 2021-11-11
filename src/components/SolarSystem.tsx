@@ -134,7 +134,7 @@ export default function SolarSystem(): JSX.Element {
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
-    p5.createCanvas(p5.windowWidth, p5.windowHeight, p5.WEBGL);
+    p5.createCanvas(p5.windowWidth - 25, p5.windowHeight - 130, p5.WEBGL);
     createStars(p5);
 
     //Camera position
