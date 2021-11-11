@@ -1,39 +1,134 @@
 import Sketch from "react-p5";
 import p5Types from "p5"; //Import this for typechecking and intellisense
 
-// interface ComponentProps {
-//   //Your component props
-// }
-
 interface Star {
   x: number;
   y: number;
   z: number;
 }
 
+interface Sun {
+  name: string;
+  distance: number;
+  radius: number;
+  img: p5Types.Image | undefined;
+}
+
+interface Planet {
+  name: string;
+  distance: number;
+  radius: number;
+  speed: number;
+  angle: number;
+  img: p5Types.Image | undefined;
+}
+
 export default function SolarSystem(): JSX.Element {
   let myCamera;
   const stars: Star[] = [];
-  const sun = { name: "Sun", distance: 0, radius: 100 };
-  const planets = [
-    { name: "Mercury", distance: 139, radius: 5, speed: 0.05, angle: 0 },
-    { name: "Venus", distance: 172, radius: 12, speed: 0.035, angle: 1.57 },
-    { name: "Earth", distance: 200, radius: 13, speed: 0.029, angle: 0.52 },
-    { name: "Mars", distance: 252, radius: 7, speed: 0.024, angle: 4.71 },
-    { name: "Jupiter", distance: 600, radius: 100, speed: 0.013, angle: 3.66 },
-    { name: "Saturn", distance: 900, radius: 70, speed: 0.009, angle: 5.49 },
-    { name: "Uranus", distance: 1000, radius: 25, speed: 0.006, angle: 2.36 },
-    { name: "Neptune", distance: 1100, radius: 22, speed: 0.005, angle: 0 },
+  const sun: Sun = {
+    name: "Sun",
+    distance: 0,
+    radius: 100,
+    img: undefined,
+  };
+  const planets: Planet[] = [
+    {
+      name: "Mercury",
+      distance: 139,
+      radius: 5,
+      speed: 0.05,
+      angle: 0,
+      img: undefined,
+    },
+    {
+      name: "Venus",
+      distance: 172,
+      radius: 12,
+      speed: 0.035,
+      angle: 1.57,
+      img: undefined,
+    },
+    {
+      name: "Earth",
+      distance: 200,
+      radius: 13,
+      speed: 0.029,
+      angle: 0.52,
+      img: undefined,
+    },
+    {
+      name: "Mars",
+      distance: 252,
+      radius: 7,
+      speed: 0.024,
+      angle: 4.71,
+      img: undefined,
+    },
+    {
+      name: "Jupiter",
+      distance: 600,
+      radius: 100,
+      speed: 0.013,
+      angle: 3.66,
+      img: undefined,
+    },
+    {
+      name: "Saturn",
+      distance: 900,
+      radius: 70,
+      speed: 0.009,
+      angle: 5.49,
+      img: undefined,
+    },
+    {
+      name: "Uranus",
+      distance: 1000,
+      radius: 25,
+      speed: 0.006,
+      angle: 2.36,
+      img: undefined,
+    },
+    {
+      name: "Neptune",
+      distance: 1100,
+      radius: 22,
+      speed: 0.005,
+      angle: 0,
+      img: undefined,
+    },
   ];
+  const preload = (p5: p5Types) => {
+    sun.img = p5.loadImage("https://i.postimg.cc/0NbzSXtw/sunmap.jpg");
+    planets[0].img = p5.loadImage(
+      "https://i.postimg.cc/JzTyGCQ8/mercurymap.jpg"
+    );
+    planets[1].img = p5.loadImage("https://i.postimg.cc/zGDbzGKp/venusmap.jpg");
+    planets[2].img = p5.loadImage(
+      "https://i.postimg.cc/sg3SMcdY/earthmap1k.jpg"
+    );
+    planets[3].img = p5.loadImage(
+      "https://i.postimg.cc/BQBPfKLX/mars-1k-color.jpg"
+    );
+    planets[4].img = p5.loadImage(
+      "https://i.postimg.cc/FzjdRfTC/jupitermap.jpg"
+    );
+    planets[5].img = p5.loadImage(
+      "https://i.postimg.cc/MHkfq0mj/saturnmap.jpg"
+    );
+    planets[6].img = p5.loadImage(
+      "https://i.postimg.cc/43ShFRKP/uranusmap.jpg"
+    );
+    planets[7].img = p5.loadImage(
+      "https://i.postimg.cc/V600xZn8/neptunemap.jpg"
+    );
+  };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight, p5.WEBGL);
     createStars(p5);
-    // let width;
-    // let height;
 
-    //optional
-    //Set up a non-default camera position and facing.  You *can* delete these and accept the defaults
+    //Camera position
     myCamera = p5.createCamera();
     myCamera.setPosition(0, -400, 1500);
     myCamera.lookAt(0, 0, 0);
@@ -55,7 +150,11 @@ export default function SolarSystem(): JSX.Element {
   };
 
   const drawSun = (p5: p5Types) => {
-    p5.ambientMaterial(p5.color("#ed6663"));
+    if (sun.img !== undefined) {
+      p5.texture(sun.img);
+    } else {
+      p5.ambientMaterial(p5.color("#ed6663"));
+    }
     p5.sphere(sun.radius);
   };
 
@@ -67,7 +166,8 @@ export default function SolarSystem(): JSX.Element {
         planet.distance,
         planet.radius,
         planet.speed,
-        planet.angle
+        planet.angle,
+        planet.img
       );
       p5.pop();
     }
@@ -78,14 +178,19 @@ export default function SolarSystem(): JSX.Element {
     distance: number,
     radius: number,
     speed: number,
-    angle: number
+    angle: number,
+    img: p5Types.Image | undefined
   ) {
     const x = distance * p5.cos(angle);
     const y = distance * p5.sin(angle);
 
     p5.translate(x, 0, y);
     angle += speed;
-    p5.ambientMaterial(p5.color("#e93dc8"));
+    if (img !== undefined) {
+      p5.texture(img);
+    } else {
+      p5.ambientMaterial(p5.color("#e93dc8"));
+    }
     p5.sphere(radius);
     return angle;
   }
@@ -104,7 +209,7 @@ export default function SolarSystem(): JSX.Element {
     p5.strokeWeight(0.5);
     p5.stroke(150);
     p5.noFill();
-    p5.ellipse(0, 0, distance * 2);
+    p5.ellipse(0, 0, distance * 2, distance * 2, 50);
   }
 
   const createStars = (p5: p5Types) => {
@@ -130,5 +235,5 @@ export default function SolarSystem(): JSX.Element {
     p5.sphere(1);
   }
 
-  return <Sketch setup={setup} draw={draw} />;
+  return <Sketch setup={setup} draw={draw} preload={preload} />;
 }
