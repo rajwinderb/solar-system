@@ -146,8 +146,8 @@ export default function SolarSystem(): JSX.Element {
   const draw = (p5: p5Types) => {
     p5.background(0);
     p5.orbitControl(4, 4);
-    p5.directionalLight(p5.color(150, 100, 0), p5.createVector(1, 0, -1));
-
+    p5.directionalLight(p5.color(150, 100, 0, 0.05), p5.createVector(0, -1, 0));
+    p5.pointLight(p5.color(150, 100, 0), 0, 0, 0);
     p5.ambientLight(180, 150, 150);
 
     p5.noStroke();
@@ -256,11 +256,7 @@ export default function SolarSystem(): JSX.Element {
 
   const createStars = (p5: p5Types) => {
     for (let i = 0; i < 1300; i++) {
-      const star = {
-        x: p5.random(-1300, 1300),
-        y: p5.random(-1300, 1300),
-        z: p5.random(-1300, 1300),
-      };
+      const star = p5Types.Vector.random3D().mult(p5.random(1600, 5000));
       stars.push(star);
     }
   };
@@ -274,7 +270,7 @@ export default function SolarSystem(): JSX.Element {
   function drawStar(p5: p5Types, star: Star) {
     p5.translate(star.x, star.y, star.z);
     p5.ambientMaterial(p5.color("#fff"));
-    p5.sphere(1);
+    p5.sphere(3);
   }
 
   return <Sketch setup={setup} draw={draw} preload={preload} />;
