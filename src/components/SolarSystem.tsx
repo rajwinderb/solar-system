@@ -145,7 +145,7 @@ export default function SolarSystem(): JSX.Element {
 
   const draw = (p5: p5Types) => {
     p5.background(0);
-    p5.orbitControl(5, 5);
+    p5.orbitControl(4, 4);
     p5.directionalLight(p5.color(150, 100, 0), p5.createVector(1, 0, -1));
 
     p5.ambientLight(180, 150, 150);
