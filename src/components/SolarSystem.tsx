@@ -1,6 +1,5 @@
 import Sketch from "react-p5";
 import p5Types from "p5"; //Import this for typechecking and intellisense
-import "../images/sunmap.jpeg";
 
 interface Star {
   x: number;
