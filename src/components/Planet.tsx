@@ -1,5 +1,9 @@
 import "./Planet.css";
 
-export default function Planet(): JSX.Element {
-  return <li className="Planet">planet name</li>;
+interface Props {
+  name: string;
+}
+
+export default function Planet(props: Props): JSX.Element {
+  return <li className="Planet">{props.name}</li>;
 }
