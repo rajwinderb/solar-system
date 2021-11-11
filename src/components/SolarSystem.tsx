@@ -100,7 +100,29 @@ export default function SolarSystem(): JSX.Element {
     },
   ];
   const preload = (p5: p5Types) => {
-    sun.img = p5.loadImage("../images/sunmap.jpeg");
+    sun.img = p5.loadImage("https://i.postimg.cc/0NbzSXtw/sunmap.jpg");
+    planets[0].img = p5.loadImage(
+      "https://i.postimg.cc/JzTyGCQ8/mercurymap.jpg"
+    );
+    planets[1].img = p5.loadImage("https://i.postimg.cc/zGDbzGKp/venusmap.jpg");
+    planets[2].img = p5.loadImage(
+      "https://i.postimg.cc/sg3SMcdY/earthmap1k.jpg"
+    );
+    planets[3].img = p5.loadImage(
+      "https://i.postimg.cc/BQBPfKLX/mars-1k-color.jpg"
+    );
+    planets[4].img = p5.loadImage(
+      "https://i.postimg.cc/FzjdRfTC/jupitermap.jpg"
+    );
+    planets[5].img = p5.loadImage(
+      "https://i.postimg.cc/MHkfq0mj/saturnmap.jpg"
+    );
+    planets[6].img = p5.loadImage(
+      "https://i.postimg.cc/43ShFRKP/uranusmap.jpg"
+    );
+    planets[7].img = p5.loadImage(
+      "https://i.postimg.cc/V600xZn8/neptunemap.jpg"
+    );
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
@@ -129,9 +151,10 @@ export default function SolarSystem(): JSX.Element {
   };
 
   const drawSun = (p5: p5Types) => {
-    p5.ambientMaterial(p5.color("#ed6663"));
     if (sun.img !== undefined) {
       p5.texture(sun.img);
+    } else {
+      p5.ambientMaterial(p5.color("#ed6663"));
     }
     p5.sphere(sun.radius);
   };
@@ -144,7 +167,8 @@ export default function SolarSystem(): JSX.Element {
         planet.distance,
         planet.radius,
         planet.speed,
-        planet.angle
+        planet.angle,
+        planet.img
       );
       p5.pop();
     }
@@ -155,14 +179,19 @@ export default function SolarSystem(): JSX.Element {
     distance: number,
     radius: number,
     speed: number,
-    angle: number
+    angle: number,
+    img: p5Types.Image | undefined
   ) {
     const x = distance * p5.cos(angle);
     const y = distance * p5.sin(angle);
 
     p5.translate(x, 0, y);
     angle += speed;
-    p5.ambientMaterial(p5.color("#e93dc8"));
+    if (img !== undefined) {
+      p5.texture(img);
+    } else {
+      p5.ambientMaterial(p5.color("#e93dc8"));
+    }
     p5.sphere(radius);
     return angle;
   }
@@ -181,7 +210,7 @@ export default function SolarSystem(): JSX.Element {
     p5.strokeWeight(0.5);
     p5.stroke(150);
     p5.noFill();
-    p5.ellipse(0, 0, distance * 2);
+    p5.ellipse(0, 0, distance * 2, distance * 2, 50);
   }
 
   const createStars = (p5: p5Types) => {
