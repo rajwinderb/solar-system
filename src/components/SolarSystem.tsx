@@ -98,6 +98,14 @@ export default function SolarSystem(): JSX.Element {
       img: undefined,
     },
   ];
+  const moon: Planet = {
+    name: "Moon",
+    distance: 20,
+    radius: 3,
+    speed: 0.05,
+    angle: 0,
+    img: undefined,
+  };
   const preload = (p5: p5Types) => {
     sun.img = p5.loadImage("https://i.postimg.cc/0NbzSXtw/sunmap.jpg");
     planets[0].img = p5.loadImage(
@@ -122,6 +130,7 @@ export default function SolarSystem(): JSX.Element {
     planets[7].img = p5.loadImage(
       "https://i.postimg.cc/V600xZn8/neptunemap.jpg"
     );
+    moon.img = p5.loadImage("https://i.postimg.cc/cCXDP9JB/moonmap4k.jpg");
   };
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
@@ -136,7 +145,7 @@ export default function SolarSystem(): JSX.Element {
 
   const draw = (p5: p5Types) => {
     p5.background(0);
-    p5.orbitControl(5, 5);
+    p5.orbitControl(4, 4);
     p5.directionalLight(p5.color(150, 100, 0), p5.createVector(1, 0, -1));
 
     p5.ambientLight(180, 150, 150);
@@ -155,6 +164,7 @@ export default function SolarSystem(): JSX.Element {
     } else {
       p5.ambientMaterial(p5.color("#ed6663"));
     }
+    p5.rotateY(p5.frameCount / 100);
     p5.sphere(sun.radius);
   };
 
@@ -163,6 +173,7 @@ export default function SolarSystem(): JSX.Element {
       p5.push();
       planet.angle = drawPlanet(
         p5,
+        planet.name,
         planet.distance,
         planet.radius,
         planet.speed,
@@ -175,6 +186,7 @@ export default function SolarSystem(): JSX.Element {
 
   function drawPlanet(
     p5: p5Types,
+    name: string,
     distance: number,
     radius: number,
     speed: number,
@@ -191,9 +203,39 @@ export default function SolarSystem(): JSX.Element {
     } else {
       p5.ambientMaterial(p5.color("#e93dc8"));
     }
+    p5.rotateY(p5.frameCount / 100);
     p5.sphere(radius);
+
+    if (name === "Saturn") {
+      drawRings(p5, 100);
+    } else if (name === "Earth") {
+      drawMoon(p5);
+    }
+
     return angle;
   }
+
+  const drawMoon = (p5: p5Types) => {
+    p5.rotateX(-p5.PI / 4);
+    const x = moon.distance * p5.cos(moon.angle);
+    const y = moon.distance * p5.sin(moon.angle);
+
+    p5.translate(x, 0, y);
+    moon.angle += moon.speed;
+    if (moon.img !== undefined) {
+      p5.texture(moon.img);
+    }
+    p5.rotateY(p5.frameCount / 100);
+    p5.sphere(moon.radius);
+  };
+
+  const drawRings = (p5: p5Types, distanceFromPlanet: number) => {
+    p5.rotateX(p5.PI / 4);
+    p5.strokeWeight(10);
+    p5.stroke(170);
+    p5.noFill();
+    p5.ellipse(0, 0, distanceFromPlanet * 2, distanceFromPlanet * 2, 50);
+  };
 
   const drawOrbits = (p5: p5Types) => {
     for (const planet of planets) {
