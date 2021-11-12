@@ -164,7 +164,9 @@ export default function SolarSystem(): JSX.Element {
     } else {
       p5.ambientMaterial(p5.color("#ed6663"));
     }
+    p5.push();
     p5.rotateY(p5.frameCount / 100);
+    p5.pop();
     p5.sphere(sun.radius);
   };
 
