@@ -1,9 +1,10 @@
+import { IPlanet } from "../utils/Interfaces";
 import "./Planet.css";
 
 interface Props {
-  name: string;
+  planet: IPlanet;
 }
 
 export default function Planet(props: Props): JSX.Element {
-  return <li className="Planet">{props.name}</li>;
+  return <li className="Planet">{props.planet.name}</li>;
 }
